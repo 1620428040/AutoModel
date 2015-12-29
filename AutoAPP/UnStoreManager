@@ -1,0 +1,164 @@
+/*<Manager.h>*/
+//自动生成的数据对象，不支持持久化存储
+
+#import <UIKit/UIKit.h>
+
+//数据对象的类
+@interface /*/name/*/Mark : NSObject<NSCoding>
+
+/*<LIST>*/@property (strong,nonatomic)/*/ATTtype/*/NSString */*/ATTname/*/Mark;
+/*<LIST>*/
+@end
+
+//管理数据对象的类
+@interface /*/name/*/MarkManager : NSObject
+
+@property (strong,nonatomic)NSMutableArray *list;
+
+//以下是自定义的方法，修改时注意
+#pragma mark 自定义方法——声明
+//以上是自定义的方法
+
++(id)share;
+-(BOOL)printall;
+-(BOOL)addWith/*<LIST>*//*/ATTname/*/Mark:(/*/ATTtype/*/NSString *)/*/ATTname/*/Mark /*<LIST>*/;
+-(BOOL)deleteall;
+-(BOOL)deleteObject:(/*/name/*/Mark*)del;
+-(NSArray*)getall;
+
+-(NSArray*)findbyPredicate:(NSPredicate*)predicate;//谓词是搜索条件,能理解字符串中的数字之类的,但是似乎不能从数据库中找出相应的字符串
+//NSPredicate *predicate=[NSPredicate predicateWithFormat:@"name=%@",name];
+
+-(/*/manager/*/Mark*)findOnlyOneObjectIn:(NSString*)where for:(NSString*)string allowExistOther:(BOOL)other;
+//只获取一个对象
+
+-(NSArray*)dictionaryArrayWithAllObject;
+-(BOOL)saveDictionaryArray:(NSArray*)array;
+
+@end
+/*<Manager.h>*/
+
+/*<Manager.m>*/
+#import "/*/name/*/MarkManager.h"
+
+//数据对象类的实现
+@implementation /*/name/*/Mark
+
+/*<LIST>*/@synthesize /*/ATTname/*/Mark;
+/*<LIST>*/
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    /*<LIST>*/[aCoder encodeObject:/*/ATTtran1/*//*/ATTname/*/Mark/*/ATTtran2/*/ forKey:@"/*/ATTname/*/Mark"];
+    /*<LIST>*/
+}
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    /*<LIST>*//*/ATTname/*/Mark=/*/ATTreve1/*/[aDecoder decodeObjectForKey:@"/*/ATTname/*/Mark"]/*/ATTreve2/*/;
+    /*<LIST>*/
+    return self;
+}
+@end
+
+//管理类的实现
+@interface /*/name/*/MarkManager()
+
+@end
+
+/*/name/*/MarkManager *share/*/name/*/MarkManager;
+
+@implementation /*/name/*/MarkManager
+
+@synthesize list;
+
+//以下是自定义的方法，修改时注意
+#pragma mark 自定义方法——实现
+//以上是自定义的方法
+
++(id)share
+{
+    if (share/*/name/*/MarkManager==nil) {
+        share/*/name/*/MarkManager=[[self alloc]init];
+    }
+    return share/*/name/*/MarkManager;
+}
+-(id)init
+{
+    if ([super init]) {
+        list=[NSMutableArray array];
+    }
+    return self;
+}
+-(BOOL)printall
+{
+    for (/*/name/*/Mark *current in list) {
+        NSLog(@"/*<LIST>*//*/ATTname/*/Mark=/*/ATThold/*/%@ /*<LIST>*/"/*<LIST>*/,/*/ATTenfo/*/current./*/ATTname/*/Mark/*<LIST>*/);
+    }
+    return YES;
+}
+-(BOOL)addWith/*<LIST>*//*/ATTname/*/Mark:(/*/ATTtype/*/NSString *)/*/ATTname/*/Mark /*<LIST>*/
+{
+    /*/name/*/Mark *new=[[/*/name/*/Mark alloc]init];
+    /*<LIST>*/new./*/ATTname/*/Mark=/*/ATTname/*/Mark;
+    /*<LIST>*/
+    [list addObject:new];
+    return YES;
+}
+-(BOOL)deleteall
+{
+    [list removeAllObjects];
+    return YES;
+}
+-(BOOL)deleteObject:(/*/name/*/Mark *)del
+{
+    [list removeObject:del];
+    return YES;
+}
+-(NSArray*)getall
+{
+    return list;
+}
+-(NSArray *)findbyPredicate:(NSPredicate *)predicate
+{
+    return [list filteredArrayUsingPredicate:predicate];
+}
+-(/*/manager/*/Mark *)findOnlyOneObjectIn:(NSString *)where for:(NSString *)string allowExistOther:(BOOL)other
+{
+    NSArray *array=[self findbyPredicate:[NSPredicate predicateWithFormat:@"%K=%@",where,string]];
+    if (array.count==0) {
+        return nil;
+    }
+    else if (array.count>1&&other==NO) {
+        return nil;
+    }
+    else
+    {
+        return [array firstObject];
+    }
+}
+-(NSArray*)dictionaryArrayWithAllObject
+{
+    NSMutableArray *json=[NSMutableArray array];
+    NSDictionary *dict;
+    for (/*/name/*/MarkMDG *cur in list) {
+        NSMutableArray *keys=[NSMutableArray array];
+        NSMutableArray *values=[NSMutableArray array];
+        /*<LIST>*/[keys addObject:@"/*/ATTname/*/Mark"];
+        [values addObject:/*/ATTtran1/*/cur./*/ATTname/*/Mark/*/ATTtran2/*/];
+        /*<LIST>*/
+        dict=[NSDictionary dictionaryWithObjects:values forKeys:keys];
+        [json addObject:dict];
+    }
+    return json;
+}
+-(BOOL)saveDictionaryArray:(NSArray *)array
+{
+    for (NSDictionary *cur in array) {
+        /*/name/*/Mark *new=[[/*/name/*/Mark alloc]init];
+        /*<LIST>*/new./*/ATTname/*/Mark=/*/ATTreve1/*/[cur valueForKey:@"/*/ATTname/*/Mark"]/*/ATTreve2/*/;
+        /*<LIST>*/
+        [list addObject:new];
+    }
+    return YES;
+}
+@end
+/*<Manager.m>*/

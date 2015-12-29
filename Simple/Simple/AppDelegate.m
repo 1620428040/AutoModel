@@ -1,40 +1,22 @@
 //
 //  AppDelegate.m
-//  AutoAPP
+//  Simple
 //
-//  Created by 国栋 on 15/11/25.
+//  Created by 国栋 on 15/12/29.
 //  Copyright (c) 2015年 GD. All rights reserved.
 //
 
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
+
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    /*
-    //自动适配用户的目录
-    NSString *current=NSHomeDirectory();
-    current=[[current componentsSeparatedByString:@"/"]objectAtIndex:2];
-    
-    NSDictionary *set=[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"set" ofType:@"plist"]];
-    NSString *savepath=[set objectForKey:@"savepath"];
-    NSString *sourcepath=[set objectForKey:@"sourcepath"];
-    
-    NSString *setuser=[[savepath componentsSeparatedByString:@"/"]objectAtIndex:2];
-    if (![setuser isEqualToString:current]) {
-        savepath=[NSString stringWithFormat:@"%@%@",[NSString stringWithFormat:@"/Users/%@/",current],[[savepath componentsSeparatedByString:[NSString stringWithFormat:@"/Users/%@/",setuser]]objectAtIndex:1]];
-        sourcepath=[NSString stringWithFormat:@"%@%@",[NSString stringWithFormat:@"/Users/%@/",current],[[sourcepath componentsSeparatedByString:[NSString stringWithFormat:@"/Users/%@/",setuser]]objectAtIndex:1]];
-        ;
-    }
-    NSDictionary *save=[NSDictionary dictionaryWithObjects:@[savepath,sourcepath] forKeys:@[@"savepath",@"sourcepath"]];
-    
-    [save writeToFile:[[NSBundle mainBundle]pathForResource:@"set" ofType:@"plist"] atomically:YES];
     // Override point for customization after application launch.
-     */
     return YES;
 }
 

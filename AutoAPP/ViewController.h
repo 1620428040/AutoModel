@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataGroupManager.h"
+#import "GDTableViewCell.h"
+#import "FileCreate.h"
 
-@interface ViewController : UIViewController
-
+@interface ViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 @end
 

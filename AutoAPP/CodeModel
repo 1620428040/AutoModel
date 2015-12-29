@@ -1,0 +1,25 @@
+//代码的模型
+
+//示例
+/*<文件名>*/      //模型对应的文件名
+/*/name/*/Mark  //数据组的名称
+/*<LIST>*/      //属性列表的标记
+/*/ATTname/*/Mark        //属性的名称标签，此处用Mark占位
+/*/ATTtype/*/NSString *  //属性的数据类型，此处用NSString *占位
+/*<LIST>*/      //属性列表结束
+/*<测试－文件名>*/ //模型结束
+
+/*<contents>*/
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<entity name="/*/name/*/Mark" syncable="YES">
+/*<LIST>*/<attribute name="/*/ATTname/*/Mark" optional="YES" attributeType="/*/ATTtype/*/NSString *" syncable="YES"/>
+/*<LIST>*/
+<attribute name="index" optional="YES" attributeType="Transformable" syncable="YES"/>
+</entity>
+<elements>
+<element name="/*/name/*/Mark" positionX="-18" positionY="27" width="128" height="75"/>
+</elements>
+</model>
+/*<contents>*/
+//文件结束

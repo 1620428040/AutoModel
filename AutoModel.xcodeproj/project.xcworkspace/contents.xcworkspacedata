@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:AutoAPP.xcodeproj">
+      location = "self:/Users/guodong/Desktop/AutoAPP/AutoModel.xcodeproj">
    </FileRef>
 </Workspace>

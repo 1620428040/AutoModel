@@ -1,0 +1,388 @@
+/*<Manager.h>*/
+//自动生成的，通过coredata存储数据的数据管理类
+
+#import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+//未被管理的数据对象
+@interface /*/name/*/Mark : NSObject<NSCoding>
+
+/*<LIST>*/@property (strong,nonatomic)/*/ATTtype/*/NSString */*/ATTname/*/Mark;
+/*<LIST>*/
+@end
+
+//管理类的声明
+@interface /*/name/*/MarkManager : NSObject
+
+//对数据类进行管理的方法的声明
+@property (strong,nonatomic)NSMutableArray *list;//存储的对象列表
+
+//以下是自定义的方法，修改时注意
+#pragma mark 自定义方法——声明
+//以上是自定义的方法
+
++(id)share;//获取管理的类
+-(NSMutableArray*)getall;//读取数据库中的数据
+-(void)updata;//将list中的数据保存在数据库中（原有的数据会删除）
+
+//增加对象
+-(void)addWith/*<LIST>*//*/ATTname/*/Mark:(/*/ATTtype/*/NSString *)/*/ATTname/*/Mark /*<LIST>*/;//添加对象
+-(void)addObject:(/*/name/*/Mark *)obj;
+-(void)addArray:(NSArray *)array;
+
+//删除对象
+-(void)deleteArray:(NSArray*)array;
+-(void)deleteObject:(/*/name/*/Mark *)obj;
+-(void)deleteall;
+
+-(void)changeObject:(/*/name/*/Mark*)obj;//更改对象中的数据后保存
+//例如：obj=[[... getall]firstObject];
+//obj.name=@"xasca";obj.age=123;
+//[... changeObject:obj];就可以保存对象了
+
+-(void)printall;//打印所有数据
+
+-(NSArray*)findObjectIn:(NSString*)where for:(NSString*)string;//搜索
+-(NSArray*)findbyPredicate:(NSPredicate*)predicate;//根据自定义的谓词搜索
+//NSPredicate *predicate=[NSPredicate predicateWithFormat:@"name=%@",name];
+-(NSArray *)requestWithPredicate:(NSPredicate *)predicate sort:(NSArray*)sort;//自定义的请求
+
+-(NSDictionary*)dictionaryWithObject:(/*/name/*/Mark*)obj;
+-(/*/name/*/Mark*)objectWithDictionary:(NSDictionary*)dict;
+-(NSArray*)dictionaryArrayWithAllObject;
+-(NSArray*)dictionaryArrayWithArray:(NSArray*)array;
+-(BOOL)saveDictionaryArray:(NSArray*)array;
+
+-(BOOL)checkObjectClass:(id)obj;//检测对象是否是正确的类
+
+@end
+/*<Manager.h>*/
+
+/*<Manager.m>*/
+#import "/*/name/*/MarkManager.h"
+
+//未被管理的数据类的实现
+@class /*/name/*/MarkMDG;
+@interface /*/name/*/Mark ()
+@property (strong,nonatomic)/*/name/*/MarkMDG *save;
+@end
+
+@implementation /*/name/*/Mark
+
+/*<LIST>*/@synthesize /*/ATTname/*/Mark;
+/*<LIST>*/
+@synthesize save;
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    /*<LIST>*/[aCoder encodeObject:/*/ATTtran1/*//*/ATTname/*/Mark/*/ATTtran2/*/ forKey:@"/*/ATTname/*/Mark"];
+    /*<LIST>*/
+}
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    /*<LIST>*//*/ATTname/*/Mark=/*/ATTreve1/*/[aDecoder decodeObjectForKey:@"/*/ATTname/*/Mark"]/*/ATTreve2/*/;
+    /*<LIST>*/
+    return self;
+}
+@end
+
+//被管理对象的声明
+@interface /*/name/*/MarkMDG : NSManagedObject
+
+/*<LIST>*/@property (strong,nonatomic)/*/ATTtrans/*/NSString */*/ATTname/*/Mark;
+/*<LIST>*/
+@property (strong,nonatomic)NSNumber *index;
+
+@end
+//被管理对象的实现
+@implementation /*/name/*/MarkMDG
+
+/*<LIST>*/@dynamic /*/ATTname/*/Mark;
+/*<LIST>*/
+@dynamic index;
+
+@end
+
+//管理类的实现
+@interface /*/name/*/MarkManager()
+
+//调用coredata的控制器
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property NSInteger num;
+
+- (void)saveContext;//与数据库同步
+- (NSURL *)applicationDocumentsDirectory;//获取路径
+
+@end
+
+/*/name/*/MarkManager *share/*/name/*/MarkManager;
+
+@implementation /*/name/*/MarkManager
+
+//调用coredata的控制器的实现
+@synthesize managedObjectContext;//上下文对象管理器
+@synthesize managedObjectModel;//被管理对象模型
+@synthesize persistentStoreCoordinator;//持久化存储协调器
+
+- (NSURL *)applicationDocumentsDirectory {
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (NSManagedObjectModel *)managedObjectModel {
+    if (managedObjectModel != nil) {
+        return managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"/*/name/*/MarkModel" withExtension:@"momd"];
+    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return managedObjectModel;
+}
+
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    if (persistentStoreCoordinator != nil) {
+        return persistentStoreCoordinator;
+    }
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"/*/name/*/Mark.sqlite"];
+    NSError *error = nil;
+    NSString *failureReason = @"There was an error creating or loading the application's saved data.";
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+    {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
+        dict[NSLocalizedFailureReasonErrorKey] = failureReason;
+        dict[NSUnderlyingErrorKey] = error;
+        error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    return persistentStoreCoordinator;
+}
+- (NSManagedObjectContext *)managedObjectContext {
+    if (managedObjectContext != nil) {
+        return managedObjectContext;
+    }
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (!coordinator) {
+        return nil;
+    }
+    managedObjectContext = [[NSManagedObjectContext alloc] init];
+    [managedObjectContext setPersistentStoreCoordinator:coordinator];
+    return managedObjectContext;
+}
+- (void)saveContext {
+    if (managedObjectContext != nil) {
+        NSError *error = nil;
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+}
+
+//管理方法的实现
+@synthesize list,num;
+
+//以下是自定义的方法，修改时注意
+#pragma mark 自定义方法——实现
+//以上是自定义的方法
+
++(id)share
+{
+    if (share/*/name/*/MarkManager==nil) {
+        share/*/name/*/MarkManager=[[self alloc]init];
+    }
+    return share/*/name/*/MarkManager;
+}
+-(id)init
+{
+    if ([super init]) {
+        num=0;
+        managedObjectContext=[self managedObjectContext];
+        list=[self getall];
+    }
+    return self;
+}
+
+//读取数据库数据
+-(NSMutableArray*)getall
+{
+    NSFetchRequest *request=[[NSFetchRequest alloc]init];
+    NSEntityDescription *entityDescription=[NSEntityDescription entityForName:@"/*/name/*/Mark" inManagedObjectContext:managedObjectContext];
+    [request setEntity:entityDescription];
+    NSSortDescriptor *sort=[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    [request setSortDescriptors:@[sort]];
+    NSError *error;
+    list=[self translateDataTypeInArray:[managedObjectContext executeFetchRequest:request error:&error]];
+    if (error!=nil) {
+        NSLog(@"====%@====",error);
+    }
+    return list;
+}
+-(NSMutableArray*)translateDataTypeInArray:(NSArray*)input
+{
+    NSMutableArray *output=[NSMutableArray array];
+    for (/*/name/*/MarkMDG *current in input) {
+        /*/name/*/Mark *new=[[/*/name/*/Mark alloc]init];
+        /*<LIST>*/new./*/ATTname/*/Mark=/*/ATTreve1/*/current./*/ATTname/*/Mark /*/ATTreve2/*/;
+        /*<LIST>*/
+        new.save=current;
+        if ([current.index integerValue]>num) {
+            num=[current.index integerValue];
+        }
+        [output addObject:new];
+    }
+    return output;
+}
+//将LIST中的数据同步到数据库，如果数据不全，有可能丢失数据
+-(void)updata
+{
+    [self deleteall];
+    num=0;
+    for (/*/name/*/Mark *cur in list) {
+        [self addObject:cur];
+    }
+}
+//修改单个的数据
+-(void)addObject:(/*/name/*/Mark *)obj
+{
+    if (![self checkObjectClass:obj]) {
+        return;
+    }
+    [self.list addObject:obj];
+    /*/name/*/MarkMDG *new=[NSEntityDescription insertNewObjectForEntityForName:@"/*/name/*/Mark" inManagedObjectContext:managedObjectContext];
+    /*<LIST>*/new./*/ATTname/*/Mark=/*/ATTtran1/*/obj./*/ATTname/*/Mark/*/ATTtran2/*/;
+    /*<LIST>*/
+    new.index=[NSNumber numberWithInteger:num];
+    num++;
+    obj.save=new;
+    //[managedObjectContext save:nil];
+}
+-(void)changeObject:(/*/name/*/Mark*)obj
+{
+    if (![self checkObjectClass:obj]) {
+        return;
+    }
+    /*<LIST>*/obj.save./*/ATTname/*/Mark=/*/ATTtran1/*/obj./*/ATTname/*/Mark/*/ATTtran2/*/;
+    /*<LIST>*/
+    //[managedObjectContext save:nil];
+}
+-(void)deleteObject:(/*/name/*/Mark *)obj
+{
+    if (![self checkObjectClass:obj]) {
+        return;
+    }
+    [managedObjectContext deleteObject:obj.save];
+    //[managedObjectContext save:nil];
+    [self.list removeObject:obj];
+}
+
+//其他操作
+-(void)printall
+{
+    list=[self getall];
+    for (/*/name/*/Mark *current in list) {
+        NSLog(@"/*<LIST>*//*/ATTname/*/Mark=/*/ATThold/*/%@  /*<LIST>*/"/*<LIST>*/,current./*/ATTname/*/Mark/*<LIST>*/);
+    }
+}
+-(void)addWith/*<LIST>*//*/ATTname/*/Mark:(/*/ATTtype/*/NSString *)/*/ATTname/*/Mark /*<LIST>*/;
+{
+    /*/name/*/Mark *new=[[/*/name/*/Mark alloc]init];
+    /*<LIST>*/new./*/ATTname/*/Mark=/*/ATTname/*/Mark;
+    /*<LIST>*/
+    [self addObject:new];
+}
+-(void)addArray:(NSArray *)array
+{
+    NSUInteger number=array.count;//防止可变数组中的对象数量的改变导致的死循环
+    for (int i=0; i<number; i++) {
+        [self addObject:[array objectAtIndex:i]];
+    }
+}
+-(void)deleteArray:(NSArray*)array
+{
+    NSUInteger number=array.count;//防止可变数组中的对象数量的改变导致的死循环
+    for (NSInteger i=number-1; i>=0; i--) {//从列尾开始删除
+        [self deleteObject:[array objectAtIndex:i]];
+    }
+}
+-(void)deleteall
+{
+    [self deleteArray:[self getall]];
+}
+
+-(NSArray *)findbyPredicate:(NSPredicate *)predicate
+{
+    NSFetchRequest *request=[[NSFetchRequest alloc]init];
+    NSEntityDescription *entityDescription=[NSEntityDescription entityForName:@"/*/name/*/Mark" inManagedObjectContext:managedObjectContext];
+    [request setEntity:entityDescription];
+    
+    [request setPredicate:predicate];
+    
+    return [self translateDataTypeInArray:[managedObjectContext executeFetchRequest:request error:nil]];
+}
+-(NSArray *)findObjectIn:(NSString *)where for:(NSString *)string
+{
+    return [self findbyPredicate:[NSPredicate predicateWithFormat:@"%K=%@",where,string]];
+}
+
+-(NSArray *)requestWithPredicate:(NSPredicate *)predicate sort:(NSArray*)sort
+{
+    NSFetchRequest *request=[[NSFetchRequest alloc]init];
+    NSEntityDescription *entityDescription=[NSEntityDescription entityForName:@"/*/name/*/Mark" inManagedObjectContext:managedObjectContext];
+    [request setEntity:entityDescription];
+    
+    [request setPredicate:predicate];
+    [request setSortDescriptors:sort];
+    
+    return [self translateDataTypeInArray:[managedObjectContext executeFetchRequest:request error:nil]];
+}
+
+-(NSDictionary*)dictionaryWithObject:(/*/name/*/Mark*)obj
+{
+    if (![self checkObjectClass:obj]) {
+        return nil;
+    }
+    NSMutableArray *keys=[NSMutableArray array];
+    NSMutableArray *values=[NSMutableArray array];
+    /*<LIST>*/[keys addObject:@"/*/ATTname/*/Mark"];
+    [values addObject:/*/ATTtran1/*/obj./*/ATTname/*/Mark/*/ATTtran2/*/];
+    /*<LIST>*/
+    return [NSDictionary dictionaryWithObjects:values forKeys:keys];
+}
+-(/*/name/*/Mark*)objectWithDictionary:(NSDictionary*)dict
+{
+    /*/name/*/Mark *new=[/*/name/*/Mark new];
+    /*<LIST>*/new./*/ATTname/*/Mark=/*/ATTreve1/*/[dict valueForKey:@"/*/ATTname/*/Mark"]/*/ATTreve2/*/;
+    /*<LIST>*/
+    return new;
+}
+-(NSArray*)dictionaryArrayWithAllObject
+{
+    return [self dictionaryArrayWithArray:list];
+}
+-(NSArray *)dictionaryArrayWithArray:(NSArray *)array
+{
+    NSMutableArray *json=[NSMutableArray array];
+    for (/*/name/*/Mark *cur in array) {
+        [json addObject:[self dictionaryWithObject:cur]];
+    }
+    return json;
+}
+-(BOOL)saveDictionaryArray:(NSArray *)array
+{
+    for (NSDictionary *cur in array) {
+        [self addObject:[self objectWithDictionary:cur]];
+    }
+    return YES;
+}
+-(BOOL)checkObjectClass:(id)obj
+{
+    if ([obj class]==[[/*/name/*/Mark new]class]) {
+        return YES;
+    }
+    NSLog(@"对象格式错误，跳过！");
+    return NO;
+}
+@end
+/*<Manager.m>*/
