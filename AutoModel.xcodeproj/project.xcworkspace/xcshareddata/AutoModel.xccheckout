@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>3235ECA6-BC8B-412A-BBA1-7F2B0C6966B7</string>
+	<key>IDESourceControlProjectName</key>
+	<string>AutoModel</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8640F0A12A62A1D3DD820298820D6E9997C54808</key>
+		<string>https://github.com/1620428040/AutoModel.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>AutoModel.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8640F0A12A62A1D3DD820298820D6E9997C54808</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/1620428040/AutoModel.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8640F0A12A62A1D3DD820298820D6E9997C54808</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8640F0A12A62A1D3DD820298820D6E9997C54808</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AutoModel</string>
+		</dict>
+	</array>
+</dict>
+</plist>
